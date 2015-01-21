@@ -31,7 +31,8 @@ var mapDiff = function(a, b, p){
         }
       }
       else {
-        ops.push( op('remove', path.concat(aKey)) );
+        var aValue = a.get ? a.get(aKey) : a;
+        ops.push( op('remove', path.concat(aKey), aValue) );
       }
     });
   }
@@ -71,7 +72,7 @@ var sequenceDiff = function (a, b, p) {
       ops.push(op('add', path.concat(pathIndex), diff.val));
       pathIndex++;
     }
-    else if(diff.op === '-'){ ops.push(op('remove', path.concat(pathIndex))); }
+    else if(diff.op === '-'){ ops.push(op('remove', path.concat(pathIndex), diff.val)); }
   });
 
   return ops;
